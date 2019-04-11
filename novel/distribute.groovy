@@ -11,7 +11,7 @@ def runWorkflow()
         sleep(3)
 
         def shStr=   '''#!/bin/bash\n
-                        str=$(cat /home/jenkins/novel.py)\n
+                        str=$(cat /home/jenkins/jenkinsTP/novel/novel.py)\n
                         echo \"$(str)\"'''
         pyScr = sh (returnStdout: true , script: shStr)
         sleep(3)
