@@ -31,7 +31,7 @@ def runWorkflow()
     {
         def nodeList = Jenkins.instance.nodes
         def label = 'EcsNode'
-        for(cmp in nodes)
+        for(cmp in nodeList)
         {
             if(cmp.labelString.contains(label))
             {

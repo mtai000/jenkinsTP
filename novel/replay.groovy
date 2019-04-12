@@ -18,7 +18,7 @@ def buildJob(pipe,para)
             return 'SUCCESS'
         }
     }
-    if(pipe == 'insPlugin')
+    if(pipe == 'installPlugin')
     {
         jobPath = '3.0 - InstallPlugin'
         work = {
