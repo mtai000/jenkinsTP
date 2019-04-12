@@ -1,18 +1,17 @@
 def runWorkflow()
 {
     def hrefs
-    def pyScr
     replay = load '/home/jenkins/jenkinsTP/novel/replay.groovy'
     node('master')
     {
         hrefs = sh(returnStdout:true,script: '''#!/bin/bash\n
-                                                hrefs=$(cat /home/jenkins/hrefs.txt)\n
-                                                echo \"$(hrefs)\"''')
+                                                hrefs=$(sudo cat /home/jenkins/hrefs.txt)\n
+                                                echo \"${hrefs}\"''')
         sleep(3)
 
         def shStr=   '''#!/bin/bash\n
                         str=$(cat /home/jenkins/jenkinsTP/novel/novel.py)\n
-                        echo \"$(str)\"'''
+                        echo \"${str}\"'''
         pyScr = sh (returnStdout: true , script: shStr)
         sleep(3)
     }
@@ -24,8 +23,7 @@ def runWorkflow()
                 if [ -d $novelDir ];then\n
                 rm -rf $novelDir\n
                 fi\n
-                mkdir -p $novelDir\n
-                echo \"''' + pyScr + '''\">$novelDir\n'''
+                mkdir -p $novelDir'''
         sleep(3)
     }
     

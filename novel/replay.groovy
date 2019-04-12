@@ -5,9 +5,9 @@ def buildJob(pipe,para)
     if(pipe == 'distribute')
 	{
         jobPath = '2.0 - Distribute'
-        work.run = {
+        //work.run = {
             build job: jobPath
-        }
+        //}
     }
     if(pipe == 'run')
     {
@@ -25,4 +25,4 @@ def buildJob(pipe,para)
     }
     return work
 }
-
+return this
