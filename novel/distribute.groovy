@@ -2,7 +2,7 @@ def runWorkflow()
 {
     def hrefs
     def pyScr
-
+    replay = load '/home/jenkins/jenkinsTP/novel/replay.groovy'
     node('master')
     {
         hrefs = sh(returnStdout:true,script: '''#!/bin/bash\n
@@ -31,13 +31,25 @@ def runWorkflow()
     
     node('master')
     {
-        for(href in hrefs)
+        def nodeList = jenkins.instance.nodes
+        def label = 'EcsNode'
+        for(cmp in nodes)
         {
-            run = load "/home/jenkins/jenkinsTP/novel/run.groovy"
-            run.runWorkflow(href)
-            
+            if(cmp.labelString.contains(label))
+            {
+                def job = replay.buildJob('installPlugin',['MACHINEIP':cmp.labelString.split(' ')[0],'PluginList':'requests,lxml'])
+                job.run()
+            }
         }
         
+        def jobs
+        for(href in hrefs)
+        {
+            def job= replay.buildJob('run',['href':href])
+            jobs += job.run()
+            
+        }
+        parallel jobs
     }
 
 
