@@ -11,7 +11,7 @@ def runWorkflow()
         sleep(1)
     }
 
-    job = load "/home/jenkins/jenkinsTP/novel/buildJobe.groovy"
+    job = load "/home/jenkins/jenkinsTP/novel/replay.groovy"
     distribute = job.buildJob('distribute',null)
     distribute.run()
 }
