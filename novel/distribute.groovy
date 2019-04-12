@@ -29,7 +29,7 @@ def runWorkflow()
     
     node('master')
     {
-        def nodeList = jenkins.instance.nodes
+        def nodeList = Jenkins.instance.nodes
         def label = 'EcsNode'
         for(cmp in nodes)
         {

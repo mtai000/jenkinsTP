@@ -1,28 +1,31 @@
+def work
 def buildJob(pipe,para)
 {
     def jobPath
-	def work
     if(pipe == 'distribute')
 	{
         jobPath = '2.0 - Distribute'
-        //work.run = {
-            build job: jobPath
-        //}
+        work = {
+            build job: jobPath,wait:false
+            return 'SUCCESS'
+        }
     }
     if(pipe == 'run')
     {
         jobPath = '4.0 - Run'
-        work.run = {
+        work = {
             build job : jobPath , parameters : para
+            return 'SUCCESS'
         }
     }
     if(pipe == 'insPlugin')
     {
         jobPath = '3.0 - InstallPlugin'
-        work.run = {
+        work = {
             build job : jobPath , parameters : para
+            return 'SUCCCESS'
         }
     }
     return work
 }
-return this
+return work
