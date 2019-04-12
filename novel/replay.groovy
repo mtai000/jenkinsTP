@@ -1,6 +1,6 @@
-def work
 def buildJob(pipe,para)
 {
+    def work
     def jobPath
     if(pipe == 'distribute')
 	{
@@ -28,4 +28,5 @@ def buildJob(pipe,para)
     }
     return work
 }
-return work
+return this
+
