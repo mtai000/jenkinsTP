@@ -16,12 +16,14 @@ def runWorkflow()
     node(nodeTo)
     {
         def pathFolder = pathTo[0..pathTo.lastIndexOf('/')]
-        sh   '''#!/bin/bash\n
-                if [ -d ''' + pathFolder +''' ]; then\n
-                rm -rf ''' + pathFolder + '''\n
-                fi
-                mkdir -p ''' + pathFolder + '''\n
-                echo \"''' + str + '''\" > ''' + pathTo
+        echo pathTo
+        def shSt= '''#!/bin/bash\n
+                    str=\"''' + str + '''\"\n
+                    if [ -d ''' + pathFolder +''' ]; then\n
+                    rm -rf ''' + pathFolder + '''\n
+                    fi
+                    echo \"${str}\" >> ''' + pathTo
+        print shSt        
         sleep(1)
     }
 }

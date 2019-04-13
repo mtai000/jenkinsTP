@@ -2,6 +2,7 @@ def runWorkflow()
 {
     def hrefs
     def replay = load '/home/jenkins/jenkinsTP/novel/replay.groovy'
+    def paraCopy=[:]
     node('master')
     {
         hrefs = sh(returnStdout:true,script: '''#!/bin/bash\n
@@ -10,22 +11,19 @@ def runWorkflow()
         sleep(3)
         hrefs=hrefs.split('\r\n')
         println hrefs
-        def nodeList = Jenkins.instance.nodes
-        def label = 'EcsNode'
-        for(cmp in nodeList)
-        {
-            if(cmp.labelString.contains(label))
-            {
-                def machineIP = cmp.labelString.split(' ')[1]
-                def copy = replay.buildJob('copy',[string(name:'nodeFrom',value:'master'),
-                                                   string(name:'nodeTo',value:machineIP),
-                                                   string(name:'pathFrom',value:'/home/jenkins/jenkinsTP/nove/novel.py'),
-                                                   string(name:'pathTo',value:'/home/jenkins/novel.py')])
-                copy.run()
-            }
+    
+        def nodeList = getMachines()
+        for(int i = 0; i < nodeList.size(); i++)
+        { 
+            def machineIP = nodeList[i]
+            def copy = replay.buildJob('copy',[string(name:'nodeFrom',value:'master'),
+                                               string(name:'nodeTo',value:machineIP),
+                                               string(name:'pathFrom',value:'/home/jenkins/jenkinsTP/novel/novel.py'),
+                                               string(name:'pathTo',value:'/home/jenkins/novel.py')])
+            paraCopy[i.toString()] = copy
+    
         }
-    }
-
+        parallel paraCopy
     
 /*    node('EcsNode')
     {
@@ -39,8 +37,8 @@ def runWorkflow()
   */  
     
     
-    node('master')
-    {    
+    //node('master')
+    //{    
         def jobs = [:]
         for( int i = 0; i<hrefs.size();i++)
         {          
@@ -55,6 +53,19 @@ def runWorkflow()
 
 }
 return this
+@NonCPS
+def getMachines()
+{
+    def nodeList = Jenkins.instance.nodes
+    def label='EcsNode'
+    def ips = []
+    for(node in nodeList)
+    {
+        if(node.labelString.contains(label))
+            ips += node.labelString.split(' ')[1]
+    }
+    return ips
+}
 
 def copyScp(nodeFrom,nodeTo,pathFrom,pathTo)
 {
