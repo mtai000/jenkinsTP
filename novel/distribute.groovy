@@ -37,7 +37,7 @@ def runWorkflow()
         def jobs = [:]
         for( int i = 0; i<hrefs.size();i++)
         {          
-            def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i])
+            def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i]),
                                                            string(name:'path',value:'/home/jenkins/novel/' + String.format("%09d",i))])
             jobs[i.toString()] = job   
         }
