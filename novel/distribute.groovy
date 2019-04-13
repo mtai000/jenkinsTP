@@ -17,7 +17,7 @@ def runWorkflow()
             if(cmp.labelString.contains(label))
             {
                 def machineIP = cmp.labelString.split(' ')[1]
-                def copy = replay.buildJob('copy',[string(name:'MACHINEIP',value:machineIP),
+                def copy = replay.buildJob('copy',[string(name:'machineIP',value:machineIP),
                                                    string(name:'host1',value:'/home/jenkins/jenkinsTP/nove/novel.py'),
                                                    string(name:'host2',value:'/home/jenkins/novel.py')])
                 copy.run()
