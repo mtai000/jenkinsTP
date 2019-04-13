@@ -5,3 +5,4 @@ def runWorkflow()
         def shStr = '''scp {host1} {host2}'''
     }
 }
+return this
