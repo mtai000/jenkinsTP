@@ -17,9 +17,10 @@ def runWorkflow()
             if(cmp.labelString.contains(label))
             {
                 def machineIP = cmp.labelString.split(' ')[1]
-                def copy = replay.buildJob('copy',[string(name:'machineIP',value:machineIP),
-                                                   string(name:'host1',value:'mtai@192.168.1.10:/home/jenkins/jenkinsTP/nove/novel.py'),
-                                                   string(name:'host2',value:'/home/jenkins/novel.py')])
+                def copy = replay.buildJob('copy',[string(name:'nodeFrom',value:'master'),
+                                                   string(name:'nodeTo',value:machineIP),
+                                                   string(name:'pathFrom',value:'/home/jenkins/jenkinsTP/nove/novel.py'),
+                                                   string(name:'pathTo',value:'/home/jenkins/novel.py')])
                 copy.run()
             }
         }
@@ -61,7 +62,7 @@ def copyScp(nodeFrom,nodeTo,fromPath,toPath)
     node(nodeFrom)
     {
         str=sh(returnStdout:true,script: '''#!/bin/bash\n
-                                            str=$(sudo cat ''' + fromePath + ''')\n
+                                            str=$(sudo cat ''' + fromPath + ''')\n
                                             echo \"${str}\"''')
         sleep(1)
     }
