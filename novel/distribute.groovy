@@ -32,7 +32,7 @@ def runWorkflow()
         def jobs
         for(href in hrefs)
         {
-            def job= replay.buildJob('run',parameters:[string(name:'href',value:href]))
+            def job= replay.buildJob('run',parameters:[string(name:'href',value:href)])
             jobs += job.run()
             
         }
