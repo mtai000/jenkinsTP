@@ -9,7 +9,7 @@ def runWorkflow()
                                                 hrefs=$(sudo cat /home/jenkins/hrefs.txt)\n
                                                 echo \"${hrefs}\"''')
         sleep(3)
-        hrefs=hrefs.split('\r\n')
+        hrefs=hrefs.split('\n')
         println hrefs
     
         def nodeList = getMachines()
@@ -42,7 +42,10 @@ def runWorkflow()
         def jobs = [:]
         for( int i = 0; i<hrefs.size();i++)
         {          
+            def machineIP = nodeList[i%nodeList.size()]
+            echo hrefs[i]
             def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i]),
+                                                           string(name:'ip',value:machineIP),
                                                            string(name:'path',value:'/home/jenkins/novel/' + String.format("%09d",i))])
             jobs[i.toString()] = job   
         }

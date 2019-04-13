@@ -22,7 +22,7 @@ def buildJob(pipe,para)
     {
         jobPath = '3.0 - ScpFile'
         work = {
-            build job: jobPath, parameters : para
+            build job: jobPath, parameters : para,wait:true
             return 'SUCCESS'
         }
     }

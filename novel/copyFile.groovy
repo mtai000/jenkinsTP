@@ -18,10 +18,12 @@ def runWorkflow()
         def pathFolder = pathTo[0..pathTo.lastIndexOf('/')]
         echo pathTo
         def shStr = '''#!/bin/bash\n
-                        if [ -d ''' + pathFolder +''' ]; then\n
-                        rm -rf ''' + pathFolder + '''\n
-                        fi\n
+                        if [ ! -d ''' + pathFolder +''' ]; then\n
                         mkdir -p ''' + pathFolder +'''\n
+                        fi\n
+                        if [ -x ''' + pathTo + ''' ]; then\n
+                        rm ''' + pathTo + '''\n
+                        fi\n
                         '''
         sh shStr
         for(s in str.split('\n'))

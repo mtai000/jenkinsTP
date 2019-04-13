@@ -31,5 +31,5 @@ if __name__ == '__main__':
     html = get_html(href)
     captureBody = get_capture(html)
     saveInTxt(title + '\r\n' + captureBody + '\r\n\r\n', argv[1])
-    
+    time.sleep(10)    
     #main()
