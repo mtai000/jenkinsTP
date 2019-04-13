@@ -29,11 +29,11 @@ def runWorkflow()
     
     node('master')
     {    
-        def jobs
-        for(href in hrefs)
+        def jobs = [:]
+        for( int i = 0; i<hrefs.size();i++)
         {
-            def job= replay.buildJob('run',parameters:[string(name:'href',value:href)])
-            jobs += job.run()
+            def job= replay.buildJob('run',parameters:[string(name:'href',value:href[i])])
+            jobs[i.toString()] = job
             
         }
         parallel jobs
