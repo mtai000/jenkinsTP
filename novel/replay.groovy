@@ -18,6 +18,14 @@ def buildJob(pipe,para)
             return 'SUCCESS'
         }
     }
+    if(pipe == 'copy')
+    {
+        jobPath = '3.0 - ScpFile'
+        work = {
+            build job: jobPath, parameters:para,wait:false
+            return 'SUCESS'
+        }
+    }
     //if(pipe == 'installPlugin')
     //{
     //    jobPath = '3.0 - InstallPlugin'

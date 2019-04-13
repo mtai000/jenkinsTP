@@ -10,27 +10,31 @@ def runWorkflow()
         sleep(3)
         hrefs=hrefs.split('\r\n')
         println hrefs
+        def nodeList = Jenkins.instance.nodes
+        def label = 'EcsNode'
+        for(cmp in nodeList)
+        {
+            if(cmp.labelString.contains(label))
+            {
+                def machineIP = cmp.labelString.split(' ')[1]
+                def copy = replay.buildJob('copy')
+                copy.run()
+            }
+        }
     }
 
-    def nodeList = jenkins.instance.nodes
-    def label = 'EcsNode'
-    for(cmp in nodes)
+    
+    node('EcsNode')
     {
-        if(cmp.labelString.contains(label))
-        {
-            def machineIP = cmp.labelString.split(' ')[1]
-            node(machineIP)
-            {
-                sh  '''#!/bin/bash\n
-                        novelDir="/home/jenkins/novel"\n
-                        if [ -d $novelDir ];then\n
-                        rm -rf $novelDir\n
-                        fi\n
-                        mkdir -p $novelDir'''
-            }
-            copyScp('master',cmp.labelString.split(' ')[1],'/home/jenkins/jenkinsTP/novel/novel,py','/home/jenkins/novel.py')
-        }
-    } 
+        sh  '''#!/bin/bash\n
+                novelDir="/home/jenkins/novel"\n
+                if [ -d $novelDir ];then\n
+                rm -rf $novelDir\n
+                fi\n
+                mkdir -p $novelDir'''
+    }
+    
+    
     
     node('master')
     {    
