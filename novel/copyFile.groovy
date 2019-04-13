@@ -9,14 +9,14 @@ def runWorkflow()
     node(nodeFrom)
     {
         str=sh(returnStdout:true,script: '''#!/bin/bash\n
-                                            str=$(sudo cat ''' + fromPath + ''')\n
+                                            str=$(sudo cat ''' + pathFrom + ''')\n
                                             echo \"${str}\"''')
         sleep(1)
     }
-    node(nodeTp)
+    node(nodeTo)
     {
         sh   '''#!/bin/bash\n
-                echo \"''' + str + '''\" > '''toPath
+                echo \"''' + str + '''\" > ''' + pathTo
         sleep(1)
     }
 }
