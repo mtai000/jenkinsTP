@@ -24,7 +24,7 @@ def runWorkflow()
                 rm -rf $novelDir\n
                 fi\n
                 mkdir -p $novelDir\n
-                echo \"${''' + pyScr + '''}\" > /home/jenkins/novel.py                
+                echo \"''' + pyScr + '''\" > /home/jenkins/novel.py                
                 '''
         sleep(3)
     }
