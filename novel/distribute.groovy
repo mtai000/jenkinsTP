@@ -27,7 +27,7 @@ def runWorkflow()
     }
 
     
-    node('EcsNode')
+/*    node('EcsNode')
     {
         sh  '''#!/bin/bash\n
                 novelDir="/home/jenkins/novel"\n
@@ -36,7 +36,7 @@ def runWorkflow()
                 fi\n
                 mkdir -p $novelDir'''
     }
-    
+  */  
     
     
     node('master')
