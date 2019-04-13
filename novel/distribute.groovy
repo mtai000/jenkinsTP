@@ -8,7 +8,8 @@ def runWorkflow()
                                                 hrefs=$(sudo cat /home/jenkins/hrefs.txt)\n
                                                 echo \"${hrefs}\"''')
         sleep(3)
-
+        hrefs=hrefs.split('\r\n')
+        println hrefs
         def shStr=   '''#!/bin/bash\n
                         str=$(cat /home/jenkins/jenkinsTP/novel/novel.py)\n
                         echo \"${str}\"'''
@@ -34,6 +35,7 @@ def runWorkflow()
         def jobs = [:]
         for( int i = 0; i<hrefs.size();i++)
         {
+            
             def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i])])
             jobs[i.toString()] = job
             
