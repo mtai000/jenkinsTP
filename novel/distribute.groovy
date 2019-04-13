@@ -54,7 +54,7 @@ def copyScp(nodeFrom,nodeTo,fromPath,toPath)
     def str
     node(nodeFrom)
     {
-        str=sh(returnStdout:true,script  '''#!/bin/bash\n
+        str=sh(returnStdout:true,script: '''#!/bin/bash\n
                                             str=$(sudo cat ''' + fromePath + ''')\n
                                             echo \"${str}\"''')
         sleep(1)
