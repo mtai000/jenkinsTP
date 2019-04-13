@@ -17,9 +17,10 @@ def runWorkflow()
     {
         def pathFolder = pathTo[0..pathTo.lastIndexOf('/')]
         sh   '''#!/bin/bash\n
-                if [ -d ''' + pathFolder +''']; then\n
+                if [ -d ''' + pathFolder +''' ]; then\n
                 rm -rf ''' + pathFolder + '''\n
                 fi
+                mkdir -p ''' + pathFolder + '''\n
                 echo \"''' + str + '''\" > ''' + pathTo
         sleep(1)
     }
