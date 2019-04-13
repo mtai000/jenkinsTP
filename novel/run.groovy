@@ -1,5 +1,8 @@
 def runWorkflow()
 {
-    def machineIP = MACHINEIP
-    sh '''/root/novel.py ''' + href
+    node('EcsNode')
+    {
+        sh '''/root/jenkins/novel.py ''' + href
+    }
 }
+return this

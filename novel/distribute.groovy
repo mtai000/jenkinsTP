@@ -23,7 +23,9 @@ def runWorkflow()
                 if [ -d $novelDir ];then\n
                 rm -rf $novelDir\n
                 fi\n
-                mkdir -p $novelDir'''
+                mkdir -p $novelDir\n
+                echo \"${''' + pyScr + '''}\" > /home/jenkins/novel.py                
+                '''
         sleep(3)
     }
     
@@ -32,7 +34,7 @@ def runWorkflow()
         def jobs = [:]
         for( int i = 0; i<hrefs.size();i++)
         {
-            def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:href[i])])
+            def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i])])
             jobs[i.toString()] = job
             
         }
