@@ -1,10 +1,11 @@
-def runWorkflow()
+def runWorkflow(MACHINEIP,plugins)
 {
-    node('MACHINEIP')
+    
+    node(MACHINEIP)
     {
-        def plugs = PluginList.tokenize(',')
+        def plugList = plugins.tokenize(',')
         def cmdStr = ""
-        for(plugin in plugs)
+        for(plugin in plugList)
             cmdStr = cmdStr + "pip install " + plugin + "\n"
 
         sh   '''#!/bin/bash\n''' + cmdStr 

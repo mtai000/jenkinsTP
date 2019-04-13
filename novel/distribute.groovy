@@ -28,22 +28,11 @@ def runWorkflow()
     }
     
     node('master')
-    {
-        def nodeList = Jenkins.instance.nodes
-        def label = 'EcsNode'
-        for(cmp in nodeList)
-        {
-            if(cmp.labelString.contains(label))
-            {
-                def job = replay.buildJob('installPlugin',['MACHINEIP':cmp.labelString.split(' ')[0],'PluginList':'requests,lxml'])
-                job.run()
-            }
-        }
-        
+    {    
         def jobs
         for(href in hrefs)
         {
-            def job= replay.buildJob('run',['href':href])
+            def job= replay.buildJob('run',parameters:[string(name:'href',value:href]))
             jobs += job.run()
             
         }

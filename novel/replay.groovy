@@ -18,14 +18,14 @@ def buildJob(pipe,para)
             return 'SUCCESS'
         }
     }
-    if(pipe == 'installPlugin')
-    {
-        jobPath = '3.0 - InstallPlugin'
-        work = {
-            build job : jobPath , parameters : para , wait: false
-            return 'SUCCCESS'
-        }
-    }
+    //if(pipe == 'installPlugin')
+    //{
+    //    jobPath = '3.0 - InstallPlugin'
+    //    work = {
+    //        build job : jobPath , parameters : para , wait: false
+    //        return 'SUCCCESS'
+    //    }
+    //}
     return work
 }
 return this
