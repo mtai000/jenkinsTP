@@ -16,8 +16,8 @@ def get_capture(html):
     links = selector.xpath('//*[@id="content"]')
     return links[0].text
 
-def SaveInTxt(str):
-    file_object = open('log.txt','w')
+def SaveInTxt(str,path):
+    file_object = open('path','w')
     file_object.write(str)
     file_object.close()
 
@@ -25,11 +25,11 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     lineText = sys.argv[0]
-    url = r"www.baidu.com"
-    href = url + lineText.split('"')[1]
-    title = lineText.split('"')[1]
+    url = r"https://www.biquke.com/bq/61/61596/"
+    href = url + lineText.split('"')[1][0:]
+    title = lineText.split('</a')[0].split('\">')[1]
     html = get_html(href)
     captureBody = get_capture(html)
-    saveInTxt(title + '\r\n' + captureBody)
+    saveInTxt(title + '\r\n' + captureBody + '\r\n\r\n', argv[1])
     
     #main()

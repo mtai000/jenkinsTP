@@ -2,7 +2,7 @@ def runWorkflow()
 {
     node('EcsNode')
     {
-        sh '''/root/jenkins/novel.py ''' + href
+        sh '''python /root/jenkins/novel.py ''' + href + ' ' + path
     }
 }
 return this
