@@ -19,9 +19,15 @@ def runWorkflow()
         echo pathTo
         def shStr = '''#!/bin/bash\n
                         if [ ! -d ''' + pathFolder + ''' ]; then\n
-                        mkdir -p ''' + pathFolder +'''\n
+                        sudo mkdir -p ''' + pathFolder +'''\n
                         fi\n
-                        echo "" > ''' + pathTo
+                        sudo chmod 777 ''' + pathFolder + '''\n
+                        if [ -x ''' + pathTo + ''' ]; then\n
+                        sudo rm ''' + pathTo + '''\n
+                        fi\n
+                        sudo touch ''' + pathTo + '''\n
+                        sudo chmod 777 ''' + pathTo
+                        
         sh shStr
         echo shStr
         for(s in str.split('\n'))

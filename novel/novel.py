@@ -12,7 +12,7 @@ def get_html(url):
     return (response)
 
 def get_capture(html):
-    selector = etree.HTML(html.replace('<br/>','\r\n'))
+    selector = etree.HTML(html.replace('<br />','\r\n'))
     links = selector.xpath('//*[@id="content"]')
     return links[0].text
 
@@ -27,11 +27,10 @@ if __name__ == '__main__':
     lineText = sys.argv[1]
     para = lineText.split(',')
     print(para)
-    href = para[0]
-    title = para[1]
-    url = r"https://www.biquke.com/bq/61/61596/" + href
+    href = para[1]
+    title = para[2]
+    url = r"http://www.xinbqg.com/" + href
     html = get_html(url)
     captureBody = get_capture(html)
     saveInTxt(title + '\r\n' + captureBody + '\r\n\r\n', sys.argv[2])
-    time.sleep(10)    
     #main()

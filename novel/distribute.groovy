@@ -48,8 +48,24 @@ def runWorkflow()
                                                            string(name:'ip',value:machineIP),
                                                            string(name:'savein',value:'/home/jenkins/novel/' + String.format("%04d",i) + '.txt')])
             jobs[i.toString()] = job   
+            if( (i%100 == 0 || i == hrefs.size()-1) && i != 0)
+            {
+                parallel jobs
+                job = [:]
+            }
         }
-        parallel jobs
+        //parallel jobs
+
+        def shellCommand='''#!/bin/bash\n
+                            files=$(ls /home/jenkins/novel/)\n
+                            sudo touch /home/jenkins/novel.txt\n
+                            sudo chmod 777 /home/jenkins/novel.txt\n
+                            for file in files;do\n
+                            cat file >> /home/jenkins/novel.txt\n
+                            done
+                            '''
+        sh shellCommand
+
     }
 
 
