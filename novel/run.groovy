@@ -4,7 +4,7 @@ def runWorkflow()
     {
         withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin'])
         {
-            def shStr = '''#!/bin/bash\npython /root/jenkins/novel.py \"''' + href.replace("\"","\\\"") + '\" \"' + path + '\"'
+            def shStr = '''#!/bin/bash\npython /home/jenkins/novel.py \"''' + href.replace("\"","\\\"") + '\" \"' + savein + '\"'
             echo shStr
             sh shStr
         }

@@ -46,7 +46,7 @@ def runWorkflow()
             echo hrefs[i]
             def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i]),
                                                            string(name:'ip',value:machineIP),
-                                                           string(name:'path',value:'/home/jenkins/novel/' + String.format("%09d",i))])
+                                                           string(name:'savein',value:'/home/jenkins/novel/' + String.format("%04d",i) + '.txt')])
             jobs[i.toString()] = job   
         }
         parallel jobs
