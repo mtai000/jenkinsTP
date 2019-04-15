@@ -4,26 +4,27 @@ def runWorkflow()
     {
         withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin'])
         {
-            sh   '''#!/bin/bash\n
-                    if [ ! -d /home/jenkins/novel ]; then\n
-                    mkdir -p /home/jenkins/novel/\n
-                    chmod 777 /home/jenkins/novel/
-                    fi\n
-                    
-                '''
-
-            def shStr = '''#!/bin/bash\npython /home/jenkins/novel.py \"''' + href.replace("\"","\\\"") + '\" \"' + savein + '\"'
+            def mkdirSH ='''#!/bin/bash\n
+                            if [ ! -d /home/jenkins/novel ]; then\n
+                            mkdir -p /home/jenkins/novel/\n
+                            chmod 777 /home/jenkins/novel/
+                            fi\n
+                            if [ ! -d /mnt/windows/novel  ]; then\n
+                            /root/mountWindows.sh
+                            fi\n
+                            '''
+            echo mkdirSH
+            sh mkdirSH
+                        
+            def shStr =  '''#!/bin/bash\n
+                            cp /mnt/windows/novel.py /root/novel.py\n
+                            python2 /root/novel.py \"''' + href.replace("\"","\\\"") + '\" \"' + '/home/jenkins/novel/' +  fileName + '\"'
             echo shStr
             sh shStr
+            sh '''scp ''' + '/home/jenkins/novel/' + fileName + ''' /mnt/windows/novel/''' + fileName
         }
+
     }
-    replay = load "/home/jenkins/jenkinsTP/novel/replay.groovy"
-    def copy =replay.buildJob('copy',[string(name:'pathFrom',value:savein),
-                            string(name:'nodeFrom',value:ip),
-                            string(name:'pathTo',value:'/home/jenkins/novel/'+savein.substring(savein.lastIndexOf('/')+1)),
-                            string(name:'nodeTo',value:'master')
-                            ])
-    copy.run()
-    sleep(1)
+    sleep(10)
 }
 return this

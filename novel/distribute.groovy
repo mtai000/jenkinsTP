@@ -11,34 +11,7 @@ def runWorkflow()
         sleep(3)
         hrefs=hrefs.split('\n')
         println hrefs
-    
-        def nodeList = getMachines()
-        for(int i = 0; i < nodeList.size(); i++)
-        { 
-            def machineIP = nodeList[i]
-            def copy = replay.buildJob('copy',[string(name:'nodeFrom',value:'master'),
-                                               string(name:'nodeTo',value:machineIP),
-                                               string(name:'pathFrom',value:'/home/jenkins/jenkinsTP/novel/novel.py'),
-                                               string(name:'pathTo',value:'/home/jenkins/novel.py')])
-            paraCopy[i.toString()] = copy
-    
-        }
-        parallel paraCopy
-    
-/*    node('EcsNode')
-    {
-        sh  '''#!/bin/bash\n
-                novelDir="/home/jenkins/novel"\n
-                if [ -d $novelDir ];then\n
-                rm -rf $novelDir\n
-                fi\n
-                mkdir -p $novelDir'''
-    }
-  */  
-    
-    
-    //node('master')
-    //{    
+        def nodeList= getMachines()
         def jobs = [:]
         for( int i = 0; i<hrefs.size();i++)
         {          
@@ -46,28 +19,30 @@ def runWorkflow()
             echo hrefs[i]
             def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i]),
                                                            string(name:'ip',value:machineIP),
-                                                           string(name:'savein',value:'/home/jenkins/novel/' + String.format("%04d",i) + '.txt')])
+                                                           string(name:'fileName',value:String.format("%04d",i) + '.txt')])
             jobs[i.toString()] = job   
-            if( (i%100 == 0 || i == hrefs.size()-1) && i != 0)
+            if( (i%16 == 15 || i == hrefs.size()-1) && i != 0)
             {
                 parallel jobs
                 job = [:]
             }
         }
-        //parallel jobs
 
-        def shellCommand='''#!/bin/bash\n
-                            files=$(ls /home/jenkins/novel/)\n
-                            sudo touch /home/jenkins/novel.txt\n
-                            sudo chmod 777 /home/jenkins/novel.txt\n
-                            for file in files;do\n
-                            cat file >> /home/jenkins/novel.txt\n
-                            done
-                            '''
-        sh shellCommand
 
     }
-
+    
+    node('amd2600x')
+    {
+        def shareFolder = 'e:\\share\\novel'
+        def fp = new File('e:\\share\\out.txt').newPrintWriter()
+        new File(shareFolder).listFiles().each
+        {f ->
+            fr = new File(f).read()
+            fp.write(fr)
+        }
+        fp.flush()
+        fp.close()
+    }
 
 
 }
@@ -86,20 +61,3 @@ def getMachines()
     return ips
 }
 
-def copyScp(nodeFrom,nodeTo,pathFrom,pathTo)
-{
-    def str
-    node(nodeFrom)
-    {
-        str=sh(returnStdout:true,script: '''#!/bin/bash\n
-                                            str=$(sudo cat ''' + pathFrom + ''')\n
-                                            echo \"${str}\"''')
-        sleep(1)
-    }
-    node(nodeTo)
-    {
-        sh   '''#!/bin/bash\n
-                echo \"''' + str + '''\" > ''' + pathTo
-        sleep(1)
-    }
-}
