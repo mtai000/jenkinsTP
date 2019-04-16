@@ -1,5 +1,6 @@
 def runWorkflow()
 {
+    def startTime = (new Date().time)/1000
     node(ip)
     {
         withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin'])
@@ -23,8 +24,10 @@ def runWorkflow()
             sh shStr
             sh '''scp ''' + '/home/jenkins/novel/' + fileName + ''' /mnt/windows/novel/''' + fileName
         }
-
     }
-    sleep(10)
+    def jobTime = (new Date().time)/1000 - startTime
+    if( jobTime < 10)
+        sleep time: (10 - jobTime) , unit: 'SECONDS'
+    
 }
 return this

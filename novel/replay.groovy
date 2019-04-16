@@ -14,7 +14,7 @@ def buildJob(pipe,para)
     {
         jobPath = '4.0 - Run'
         work = {
-            build job : jobPath , parameters : para
+            build job : jobPath , parameters : para, wait:false
             return 'SUCCESS'
         }
     }

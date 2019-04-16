@@ -12,36 +12,34 @@ def runWorkflow()
         hrefs=hrefs.split('\n')
         println hrefs
         def nodeList= getMachines()
-        def jobs = [:]
+        def masterNode 
+        //for(cmp in Jenkins.instance.computers)
+        //{
+        //    if(cmp.getAssignedLabels() == 'master')
+        //        masterNode = cmp
+        //}
+        //def jobs = [:]
         for( int i = 0; i<hrefs.size();i++)
         {          
-            def machineIP = nodeList[i%nodeList.size()]
+            def machineIP = nodeList[i%16]
             echo hrefs[i]
             def job= replay.buildJob('run',/*parameters:*/[string(name:'href',value:hrefs[i]),
                                                            string(name:'ip',value:machineIP),
                                                            string(name:'fileName',value:String.format("%04d",i) + '.txt')])
-            jobs[i.toString()] = job   
-            if( (i%16 == 15 || i == hrefs.size()-1) && i != 0)
+            //jobs[i.toString()] = job   
+            while(Jenkins.getInstance().getQueue().countBuildableItems() > 100) 
             {
-                parallel jobs
-                job = [:]
+                sleep(10)
             }
+            job.run()
         }
-
-
     }
     
     node('amd2600x')
     {
-        def shareFolder = 'e:\\share\\novel'
-        def fp = new File('e:\\share\\out.txt').newPrintWriter()
-        new File(shareFolder).listFiles().each
-        {f ->
-            fr = new File(f).read()
-            fp.write(fr)
-        }
-        fp.flush()
-        fp.close()
+        bat '''for %%a in (e:\\Share\\novel\\*.txt) do(\n
+            echo %%a\n
+            type %%a >> e:\\Share\\output.txt)'''
     }
 
 
