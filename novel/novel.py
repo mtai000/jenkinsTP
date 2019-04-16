@@ -29,8 +29,7 @@ if __name__ == '__main__':
     print(para)
     href = para[1]
     title = para[2]
-    url = r"http://www.xinbqg.com/" + href
-    html = get_html(url)
+    html = get_html(href)
     captureBody = get_capture(html)
     saveInTxt(title + '\r\n' + captureBody + '\r\n\r\n', sys.argv[2])
     #main()
