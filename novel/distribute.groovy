@@ -1,5 +1,6 @@
 def runWorkflow()
 {
+    println (new Date())
     def hrefs
     def replay = load '/home/jenkins/jenkinsTP/novel/replay.groovy'
     def paraCopy=[:]
@@ -37,14 +38,15 @@ def runWorkflow()
     
     node('amd2600x')
     {
-        bat '''for %%a in (e:\\Share\\novel\\*.txt) do(\n
-            echo %%a\n
-            type %%a >> e:\\Share\\output.txt)'''
+        bat  '''cd E:\n
+                for %%a in (E:\\Share\\novel\\*.txt) do(\n
+                echo %%a\n
+                type %%a >> E:\\Share\\output.txt)'''
     }
-
-
+    println (new Date())
 }
 return this
+
 @NonCPS
 def getMachines()
 {
