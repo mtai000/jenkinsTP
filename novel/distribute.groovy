@@ -7,7 +7,7 @@ def runWorkflow()
     node('master')
     {
         hrefs = sh(returnStdout:true,script: '''#!/bin/bash\n
-                                                hrefs=$(sudo cat /home/jenkins/hrefs.txt)\n
+                                                hrefs=$(cat /home/jenkins/hrefs.txt)\n
                                                 echo \"${hrefs}\"''')
         sleep(3)
         hrefs=hrefs.split('\n')
@@ -39,7 +39,7 @@ def runWorkflow()
     node('amd2600x')
     {
         bat  '''cd E:\n
-                for %%a in (E:\\Share\\novel\\*.txt) do(\n
+                for %%a in (E:\\Share\\novel\\*.txt) do (\n
                 echo %%a\n
                 type %%a >> E:\\Share\\output.txt)'''
     }
